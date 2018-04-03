@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?> <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"              "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.skhu.mapper.StudentMapper">
+
+	<cache flushInterval="10000"/>
+
+	<select id="findOne" resultType="Student"> 
+		SELECT * FROM Student 
+		WHERE id= #{id}   
+	</select>
+	
+	<select id="findByStudentNumber" resultType="Student"> 
+		SELECT * FROM Student 
+		WHERE studentNumber = #{studentNumber}   
+	</select>
+	
+	<select id="findByDepartmentId" resultType="Student">     
+		SELECT * FROM Student 
+		WHERE departmentId = #{departmentId}   
+	</select>    
+	
+	<select id="findAll" resultType="Student"> 
+		SELECT s.*, d.departmentName, NOW() time
+		FROM Student s LEFT JOIN department d ON s.departmentId = d.id   
+	</select>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id"> 
+		INSERT Student (studentNumber, name, departmentId, year) 
+		VALUES (#{studentNumber}, #{name}, #{departmentId}, #{year})   
+	</insert>
+	
+	<update id="update"> 
+		UPDATE Student 
+		SET studentNumber = #{studentNumber}, name = #{name}, departmentId = #{departmentId}, year = #{year} WHERE id = #{id}   
+	</update>
+	
+	<delete id="delete"> 
+		DELETE FROM Student WHERE id = #{id}   
+	</delete>
+	
+</mapper> 

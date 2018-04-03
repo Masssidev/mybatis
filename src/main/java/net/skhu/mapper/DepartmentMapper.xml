@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?> <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"              "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.skhu.mapper.DepartmentMapper">
+
+	<cache flushInterval="10000"/>
+	
+	<select id="findAll" resultType="Department"> 
+		SELECT *, NOW() time FROM Department 
+	</select>
+	
+	<select id="findAllWithStudents" resultMap="resultMap1">     
+		SELECT d.*, s.id studentId, s.studentNumber, s.name, s.year     
+		FROM Department d LEFT JOIN Student s ON d.id = s.departmentId   
+	</select>   
+	
+	<resultMap id="resultMap1" type="Department">     
+		<id property="id" column="id" />     
+		<result property="departmentName" column="departmentName" />     
+		<collection property="students" ofType="Student">       
+			<id property="id" column="studentId" />       
+			<result property="studentNumber" column="studentNumber"/>       
+			<result property="name" column="name"/>       
+			<result property="year" column="year"/>     
+		</collection>   
+	</resultMap> 
+	
+
+	<update id="update">
+		UPDATE Department
+		SET departmentName = #{departmentName}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>
